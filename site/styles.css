@@ -492,11 +492,24 @@ a:hover { text-decoration: underline; }
   padding: 3rem 1.5rem 5rem;
 }
 
+.sample-page-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
 .sample-page .back {
   font-family: var(--font-mono);
   font-size: 0.8125rem;
-  margin-bottom: 2rem;
   display: inline-block;
+}
+
+.sample-page .nav-lang {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--text);
 }
 
 .sample-page h1 {
