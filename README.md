@@ -99,13 +99,19 @@ Workflow: `.github/workflows/deploy-subscriber-api.yml`
 | `CLOUDFLARE_ACCOUNT_ID` | `f8750e2eca8b02dc184b196bd36a155d` |
 | `CLOUDFLARE_API_TOKEN` | токен Cloudflare (см. ниже) |
 
-Пересоздать секреты:
+Пересоздать секреты (OAuth refresh из `wrangler login`, автообновление в CI):
+
+```bash
+./scripts/setup-github-secrets.sh
+```
+
+Или вручную долгоживущий API Token (шаблон «Edit Cloudflare Workers»):
 
 ```bash
 CLOUDFLARE_API_TOKEN='your-token' ./scripts/setup-github-secrets.sh
 ```
 
-Рекомендуется **долгоживущий** API Token (шаблон «Edit Cloudflare Workers») в [Cloudflare Dashboard](https://dash.cloudflare.com/profile/api-tokens). OAuth-токен от `wrangler login` тоже работает, но истекает через несколько дней.
+CI при наличии `CLOUDFLARE_OAUTH_REFRESH_TOKEN` обновляет access token перед каждым деплоем.
 
 ## Локальная разработка
 

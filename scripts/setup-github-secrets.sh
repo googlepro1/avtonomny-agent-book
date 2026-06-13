@@ -21,27 +21,31 @@ if ! gh auth status >/dev/null 2>&1; then
   exit 1
 fi
 
-if [[ -z "${CLOUDFLARE_API_TOKEN:-}" ]]; then
-  cat <<'EOF'
-CLOUDFLARE_API_TOKEN is not set.
+chmod +x ./scripts/refresh-cloudflare-oauth-token.sh
 
-Create a long-lived token (recommended):
-  1. Open https://dash.cloudflare.com/profile/api-tokens
-  2. Create Token → template "Edit Cloudflare Workers"
-  3. Account Resources → include your account
-  4. Copy the token value
+if [[ -n "${CLOUDFLARE_API_TOKEN:-}" ]]; then
+  echo "Using provided CLOUDFLARE_API_TOKEN (long-lived API token)."
+  gh secret set CLOUDFLARE_API_TOKEN --repo "$REPO" --body "$CLOUDFLARE_API_TOKEN"
+  gh secret delete CLOUDFLARE_OAUTH_REFRESH_TOKEN --repo "$REPO" 2>/dev/null || true
+else
+  echo "Refreshing OAuth token from wrangler login session..."
+  tokens_json="$(NO_PROXY='*' ./scripts/refresh-cloudflare-oauth-token.sh --json)"
+  access_token="$(python3 - <<'PY' "$tokens_json"
+import json, sys
+print(json.loads(sys.argv[1])["access_token"])
+PY
+)"
+  refresh_token="$(python3 - <<'PY' "$tokens_json"
+import json, sys
+print(json.loads(sys.argv[1])["refresh_token"])
+PY
+)"
 
-Then run:
-  CLOUDFLARE_API_TOKEN='your-token' ./scripts/setup-github-secrets.sh
-
-Temporary fallback (expires with wrangler login session):
-  npx wrangler login
-  CLOUDFLARE_API_TOKEN="$(NO_PROXY='*' npx wrangler auth token --json | python3 -c "import json,sys; print(json.load(sys.stdin)['token'])")" ./scripts/setup-github-secrets.sh
-EOF
-  exit 1
+  gh secret set CLOUDFLARE_OAUTH_REFRESH_TOKEN --repo "$REPO" --body "$refresh_token"
+  gh secret set CLOUDFLARE_API_TOKEN --repo "$REPO" --body "$access_token"
+  echo "Saved OAuth refresh token + fresh access token."
 fi
 
-gh secret set CLOUDFLARE_API_TOKEN --repo "$REPO" --body "$CLOUDFLARE_API_TOKEN"
 gh secret set CLOUDFLARE_ACCOUNT_ID --repo "$REPO" --body "$ACCOUNT_ID"
 
 echo
