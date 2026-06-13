@@ -12,7 +12,6 @@ on:
 
 permissions:
   contents: read
-  secrets: write
 
 jobs:
   deploy:
@@ -80,12 +79,3 @@ jobs:
           apiToken: ${{ steps.cf_auth.outputs.api_token }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: deploy
-
-      - name: Rotate OAuth refresh token secret
-        if: steps.cf_auth.outputs.source == 'oauth_refresh' && steps.cf_auth.outputs.refresh_token != ''
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          gh secret set CLOUDFLARE_OAUTH_REFRESH_TOKEN \
-            --repo "${{ github.repository }}" \
-            --body "${{ steps.cf_auth.outputs.refresh_token }}"
