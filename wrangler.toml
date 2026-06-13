@@ -1,0 +1,12 @@
+name = "avtonomny-agent-subscribers"
+main = "worker/src/index.js"
+compatibility_date = "2024-08-01"
+account_id = "f8750e2eca8b02dc184b196bd36a155d"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "subscribers"
+database_id = "e562b04c-5647-4170-ab16-32224b05c852"
+
+[vars]
+ALLOWED_ORIGINS = "https://googlepro1.github.io,http://127.0.0.1:8080,http://localhost:8080"

@@ -396,9 +396,42 @@ a:hover { text-decoration: underline; }
   border-color: var(--accent);
 }
 
+.notify-form button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.hp-field {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
 .form-note {
   font-size: 0.8125rem;
   color: var(--text-muted);
+}
+
+.form-status {
+  min-height: 1.4em;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.form-status[data-type="success"] {
+  color: #8fd694;
+}
+
+.form-status[data-type="error"] {
+  color: #f08a8a;
+}
+
+.form-status[data-type="pending"] {
+  color: var(--accent);
 }
 
 /* Meta */

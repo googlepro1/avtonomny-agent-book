@@ -157,16 +157,21 @@
       <div class="block-inner notify-inner">
         <h2>Get notified</h2>
         <p>Leave your email and we will send a link when the full book is released.</p>
-        <form class="notify-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" data-mailto-subject="Autonomous Agent book updates">
+        <form
+          class="notify-form"
+          data-language="en"
+          data-source="landing-en"
+          data-pending="Saving your email..."
+          data-success="Done. Your email has been saved."
+          data-error="Could not save your email. Please try again."
+          data-config-error="The form is not connected to the subscriber API yet."
+        >
           <label for="email" class="sr-only">Email</label>
           <input type="email" id="email" name="email" required placeholder="you@example.com" autocomplete="email">
-          <input type="hidden" name="_subject" value="Autonomous Agent - launch updates">
+          <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
           <button type="submit" class="btn btn-primary">Subscribe</button>
         </form>
-        <p class="form-note">
-          Or email directly:
-          <a href="mailto:hello@YOUR_DOMAIN?subject=Autonomous Agent book">hello@YOUR_DOMAIN</a>
-        </p>
+        <p class="form-status" aria-live="polite"></p>
       </div>
     </section>
 
@@ -198,6 +203,7 @@
     <p class="footer-small">Created with Fable 5 - not magic, but a system</p>
   </footer>
 
+  <script src="api-config.js"></script>
   <script src="main.js"></script>
 </body>
 </html>

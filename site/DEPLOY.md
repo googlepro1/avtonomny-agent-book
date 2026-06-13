@@ -1,42 +1,73 @@
-# Публикация лендинга книги (бесплатно + свой домен)
+# Публикация лендинга и сбора email
 
-Папка `site/` — статический лендинг. Хостинг **0 ₽**.
+## Текущая схема (prod)
 
-## Быстрый старт: GitHub Pages
+```text
+https://googlepro1.github.io/avtonomny-agent-book/
+        |
+        | POST /api/subscribe
+        v
+https://avtonomny-agent-subscribers.mikxyotubes.workers.dev
+        |
+        v
+Cloudflare D1: subscribers
+```
 
-1. Создайте репозиторий на GitHub (например `avtonomny-agent-book`).
-2. Залейте содержимое **папки `site/`** в корень репо (или весь проект — см. ниже).
-3. **Settings → Pages → Source:** Deploy from branch `main`, folder `/site` или `/ (root)`.
-4. В `site/CNAME` замените `YOUR_DOMAIN` на ваш домен, например `kniga.example.com`.
-5. У регистратора домена добавьте DNS:
-   - **A-записи** на GitHub Pages: `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
-   - или **CNAME** `kniga` → `username.github.io`
-6. В GitHub Pages включите **Enforce HTTPS**.
+Форма на лендинге уже подключена через `site/api-config.js`.
 
-Сайт: `https://YOUR_DOMAIN`
+## GitHub Pages
 
-## Альтернатива: Cloudflare Pages (тоже бесплатно)
+1. Push в ветку `main`.
+2. Workflow `.github/workflows/deploy-pages.yml` публикует папку `site/`.
+3. Сайт: https://googlepro1.github.io/avtonomny-agent-book/
 
-1. [dash.cloudflare.com](https://dash.cloudflare.com) → Pages → Create project.
-2. Подключите GitHub-репо или загрузите папку `site/` вручную (Direct Upload).
-3. Build command: *(пусто)* · Output directory: `site` (или `.` если залили только site).
-4. Custom domains → добавьте домен (если DNS уже на Cloudflare — один клик).
+### Свой домен
 
-## Что заменить перед публикацией
-
-| Файл | Заменить |
+| Файл | Действие |
 |------|----------|
-| `site/CNAME` | ваш домен |
-| `site/index.html` | `YOUR_DOMAIN` в mailto и Formspree |
-| `site/index.html` | `YOUR_FORM_ID` в Formspree (бесплатно: [formspree.io](https://formspree.io)) |
+| `site/CNAME` | одна строка — ваш домен |
+| DNS | CNAME на `googlepro1.github.io` или A-записи GitHub Pages |
+| `wrangler.toml` | добавить домен в `ALLOWED_ORIGINS` |
 
-### Formspree (форма подписки)
+A-записи GitHub Pages: `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
 
-1. Зарегистрируйтесь на formspree.io.
-2. Создайте форму → скопируйте id вида `xyzabcde`.
-3. В `index.html` замените `https://formspree.io/f/YOUR_FORM_ID` на ваш URL.
+## Форма подписки
 
-Без Formspree форма откроет mailto (см. `main.js`).
+### Как это работает
+
+1. Пользователь вводит email на `index.html` или `en.html`.
+2. `site/main.js` отправляет JSON на Worker.
+3. Worker пишет строку в таблицу `subscribers` (D1).
+4. Повторная подписка с тем же email не создаёт дубликат.
+
+### Конфиг сайта
+
+`site/api-config.js`:
+
+```js
+window.API_CONFIG = {
+  subscribeUrl: 'https://avtonomny-agent-subscribers.mikxyotubes.workers.dev/api/subscribe',
+};
+```
+
+### Пересоздать API
+
+```bash
+cd ..   # корень репозитория
+npm install
+npx wrangler login
+npx wrangler d1 migrations apply subscribers --remote
+npx wrangler deploy
+```
+
+### Экспорт email
+
+```bash
+npx wrangler d1 execute subscribers --remote --command \
+  "SELECT * FROM subscribers ORDER BY created_at DESC"
+```
+
+CSV вручную: Cloudflare Dashboard → D1 → subscribers → Export.
 
 ## Локальный просмотр
 
@@ -47,12 +78,24 @@ python3 -m http.server 8080
 
 Откройте http://localhost:8080
 
-## Промо-линия (Fable 5)
+Для теста формы локально запустите Worker:
 
-На лендинге зафиксировано:
+```bash
+npx wrangler dev
+```
 
-- книга создана с участием **Fable 5** и авторской вычиткой;
-- это практический текст о переходе от промптов к миссиям;
-- это ключевой маркетинговый угол для соцсетей и анонсов.
+и временно укажите `http://127.0.0.1:8787/api/subscribe` в `api-config.js`.
 
-При необходимости уточните формулировки в `index.html` (секция `#story` и footer).
+## Безопасность
+
+- CORS: только origins из `ALLOWED_ORIGINS` в `wrangler.toml`
+- Honeypot-поле `website` в форме
+- Уникальный индекс на `email`
+- Публичный доступ только на **создание** записи; чтение — через Wrangler/Dashboard
+
+Опционально: Cloudflare Turnstile на форме.
+
+## PocketBase (только для локальных экспериментов)
+
+Папка `pocketbase/` — альтернатива для отладки на своей машине.
+**Не используйте для GitHub Pages.** См. `pocketbase/README.md`.
