@@ -5,8 +5,9 @@ document.querySelectorAll('.notify-form').forEach((form) => {
     if (action.includes('YOUR_FORM_ID')) {
       e.preventDefault();
       const email = form.querySelector('[name="email"]')?.value;
+      const subject = form.dataset.mailtoSubject || 'Подписка: Автономный Агент';
       if (email) {
-        window.location.href = `mailto:hello@YOUR_DOMAIN?subject=Подписка: Автономный Агент&body=Email: ${encodeURIComponent(email)}`;
+        window.location.href = `mailto:hello@YOUR_DOMAIN?subject=${encodeURIComponent(subject)}&body=Email: ${encodeURIComponent(email)}`;
       }
     }
   });

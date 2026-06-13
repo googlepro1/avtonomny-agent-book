@@ -93,8 +93,13 @@ a:hover { text-decoration: underline; }
   color: var(--accent) !important;
 }
 
+.nav-lang {
+  font-family: var(--font-mono);
+  color: var(--text) !important;
+}
+
 @media (max-width: 640px) {
-  .site-header nav a:not(.nav-cta) { display: none; }
+  .site-header nav a:not(.nav-cta):not(.nav-lang) { display: none; }
 }
 
 /* Hero */
