@@ -88,6 +88,25 @@ URL Worker после деплоя вставьте в `site/api-config.js`.
 
 Полный чеклист: `./scripts/setup-cloudflare.sh`
 
+### CI для Worker (GitHub Actions)
+
+Workflow: `.github/workflows/deploy-subscriber-api.yml`
+
+Секреты репозитория (уже настроены):
+
+| Secret | Значение |
+|--------|----------|
+| `CLOUDFLARE_ACCOUNT_ID` | `f8750e2eca8b02dc184b196bd36a155d` |
+| `CLOUDFLARE_API_TOKEN` | токен Cloudflare (см. ниже) |
+
+Пересоздать секреты:
+
+```bash
+CLOUDFLARE_API_TOKEN='your-token' ./scripts/setup-github-secrets.sh
+```
+
+Рекомендуется **долгоживущий** API Token (шаблон «Edit Cloudflare Workers») в [Cloudflare Dashboard](https://dash.cloudflare.com/profile/api-tokens). OAuth-токен от `wrangler login` тоже работает, но истекает через несколько дней.
+
 ## Локальная разработка
 
 ```bash

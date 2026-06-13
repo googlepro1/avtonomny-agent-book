@@ -86,6 +86,22 @@ npx wrangler dev
 
 и временно укажите `http://127.0.0.1:8787/api/subscribe` в `api-config.js`.
 
+## CI (GitHub Actions)
+
+Workflow `.github/workflows/deploy-subscriber-api.yml` деплоит Worker и применяет миграции D1 при изменениях в `worker/`, `migrations/` или `wrangler.toml`.
+
+Секреты репозитория:
+
+```bash
+CLOUDFLARE_API_TOKEN='your-token' ./scripts/setup-github-secrets.sh
+```
+
+Проверка вручную:
+
+```bash
+gh workflow run deploy-subscriber-api.yml --repo googlepro1/avtonomny-agent-book
+```
+
 ## Безопасность
 
 - CORS: только origins из `ALLOWED_ORIGINS` в `wrangler.toml`
