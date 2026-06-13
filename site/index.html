@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Автономный Агент — книга, написанная Fable 5</title>
+  <meta name="description" content="Практическая книга об автономных ИИ-агентах. Написана нейросетью Fable 5 в период полного доступа — до ограничений. Уникальный текст для тех, кто устал быть оператором промптов.">
+  <meta property="og:title" content="Автономный Агент">
+  <meta property="og:description" content="Книга, написанная Fable 5 до отключения. Как перейти от промптов к миссиям.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◉</text></svg>">
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <a class="logo" href="#">Автономный Агент</a>
+    <nav>
+      <a href="#story">История</a>
+      <a href="#engine">Двигатель</a>
+      <a href="#sample">Отрывок</a>
+      <a href="#notify" class="nav-cta">Уведомить о выходе</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="eyebrow">Книга · 2026 · уникальное происхождение</p>
+      <h1>Не промпт.<br><span class="accent">Миссия.</span></h1>
+      <p class="lead">
+        Практическое руководство по автономным ИИ-агентам — написано
+        <strong>Fable 5</strong>, пока у нейросети был полный доступ.
+        Потом её отключили. Потом разблокировали. Текст остался.
+      </p>
+      <div class="hero-actions">
+        <a href="#notify" class="btn btn-primary">Получить уведомление о выходе</a>
+        <a href="sample.html" class="btn btn-ghost">Читать отрывок</a>
+      </div>
+      <p class="hero-note">Бесплатно на сайте · скоро в печати и ebook</p>
+    </section>
+
+    <section id="story" class="story block">
+      <div class="block-inner">
+        <h2>Почему эта книга — не «ещё одна про ChatGPT»</h2>
+        <div class="story-grid">
+          <div class="story-card story-card--highlight">
+            <span class="tag">Уникальность</span>
+            <p>
+              «Автономный Агент» создан <strong>Fable 5</strong> — одной из самых сильных
+              моделей на момент написания. Работа шла в окно, когда у системы был
+              полный доступ: длинные миссии, глубокая архитектура, честные разборы провалов.
+            </p>
+            <p>
+              Затем доступ ограничили. Модель отключили. Потом снова разблокировали —
+              но книга уже была написана. Это не пересказ промпт-гайдов и не маркетинговый
+              буклет. Это зафиксированный снимок того, что умела сделать система на пике.
+            </p>
+          </div>
+          <div class="story-card">
+            <span class="tag">Для кого</span>
+            <p>
+              Вы уже пользуетесь ChatGPT, Claude или Cursor каждый день — и чувствуете потолок.
+              ИИ ускоряет ответы, но вы остаётесь диспетчером каждого шага.
+            </p>
+            <p>
+              Книга учит другому: ставить <em>миссии</em>, а не промпты. Строить двигатель
+              автономной работы — память, цикл, проверку, ремонт — и не обманываться
+              «видимостью прогресса».
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="quote block">
+      <blockquote>
+        «В среду в 7:40 я открыл ноутбук и прочитал отчёт о работе, которую не делал.
+        Ночью агент закрыл четыре вопроса по исследованию. Я не писал ему промпт вечером.
+        Я вообще не разговаривал с ним два дня.»
+      </blockquote>
+      <cite>— из введения книги</cite>
+    </section>
+
+    <section id="engine" class="engine block">
+      <div class="block-inner">
+        <h2>Двигатель миссии — 6 тактов</h2>
+        <p class="section-lead">
+          Не набор советов, а одна система. Сквозной кейс: месяц исследовательской миссии
+          от письма клиента до отчёта — через все срывы.
+        </p>
+        <ol class="takt-list">
+          <li><strong>Миссия</strong> — результат, границы, критерий «готово»</li>
+          <li><strong>Память задачи</strong> — состояние вне контекстного окна</li>
+          <li><strong>Шаг</strong> — план и действие на такте</li>
+          <li><strong>Проверка</strong> — стало лучше или просто больше текста?</li>
+          <li><strong>Продолжение</strong> — следующий ценный шаг без вашего пинка</li>
+          <li><strong>Ремонт</strong> — чинить противоречия, а не усиливать промпт</li>
+        </ol>
+
+        <h3 class="laws-title">Пять законов ядра</h3>
+        <ul class="laws">
+          <li>Миссия без критерия «готово» не заканчивается никогда.</li>
+          <li>Контекстное окно — не память, а сквозняк.</li>
+          <li>Видимость прогресса опаснее остановки.</li>
+          <li>Миссию держит внешнее состояние, а не память модели.</li>
+          <li>Разовая миссия — героизм. Миссия с инструментами — система.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="structure block">
+      <div class="block-inner">
+        <h2>Что внутри</h2>
+        <div class="parts">
+          <article>
+            <span class="part-num">I</span>
+            <h3>Потолок</h3>
+            <p>Почему вы — узкое место. Четыре передачи работы с ИИ.</p>
+          </article>
+          <article>
+            <span class="part-num">II</span>
+            <h3>Двигатель</h3>
+            <p>Миссия, память, цикл, ремонт, параллельные попытки, рост системы.</p>
+          </article>
+          <article>
+            <span class="part-num">III</span>
+            <h3>Люди</h3>
+            <p>Кейсы, что меняется с вами и в команде.</p>
+          </article>
+          <article>
+            <span class="part-num">IV</span>
+            <h3>Трезвость</h3>
+            <p>Где не работает, сколько стоит, что будет через 2–3 года.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="sample" class="sample-cta block">
+      <div class="block-inner sample-cta-inner">
+        <div>
+          <h2>Отрывок уже можно читать</h2>
+          <p>Глава «Миссия вместо промпта» и введение — на сайте, бесплатно.</p>
+        </div>
+        <a href="sample.html" class="btn btn-primary">Открыть отрывок</a>
+      </div>
+    </section>
+
+    <section id="notify" class="notify block">
+      <div class="block-inner notify-inner">
+        <h2>Уведомить о выходе</h2>
+        <p>Оставьте email — пришлём ссылку, когда книга выйдет в полном объёме и в магазинах.</p>
+        <!-- Замените YOUR_FORM_ID на id формы Formspree или свой backend -->
+        <form class="notify-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+          <label for="email" class="sr-only">Email</label>
+          <input type="email" id="email" name="email" required placeholder="you@example.com" autocomplete="email">
+          <input type="hidden" name="_subject" value="Автономный Агент — подписка на выход">
+          <button type="submit" class="btn btn-primary">Подписаться</button>
+        </form>
+        <p class="form-note">
+          Или напишите напрямую:
+          <a href="mailto:hello@YOUR_DOMAIN?subject=Книга Автономный Агент">hello@YOUR_DOMAIN</a>
+        </p>
+      </div>
+    </section>
+
+    <section class="meta block">
+      <div class="block-inner meta-inner">
+        <div>
+          <h3>Происхождение текста</h3>
+          <p>
+            Концепция и черновики созданы с участием <strong>Fable 5</strong> (нейросеть,
+            task-autonomy stack). Часть глав помечена как черновики ИИ и проходит
+            авторскую вычитку. Позиционирование основано на исследовании
+            <a href="https://alexeykrol.com/blog/2025/05/06/a_23/" rel="noopener">Alexey Krol</a>
+            о AI-бестселлерах.
+          </p>
+        </div>
+        <div>
+          <h3>Статус</h3>
+          <p>
+            <span class="status-badge">В работе</span><br>
+            Ядро книги написано · лендинг · отрывки на сайте · полное издание — скоро
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 · Книга «Автономный Агент» / «Не промпт, а миссия»</p>
+    <p class="footer-small">Написано Fable 5 в окно полного доступа · не магия, а система</p>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
